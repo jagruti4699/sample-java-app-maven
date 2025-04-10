@@ -66,3 +66,13 @@ pipeline:
                           args: {}
                         mode: orchestration
                         config: default
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: Dockerhubjagruti
+                    repo: 46990406/demo-harness
+                    tags:
+                      - latest
+                    target: zenzbg-template/greetings/Dockerfile
