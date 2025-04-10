@@ -36,4 +36,4 @@ pipeline:
                     shell: Sh
                     command: |-
                       echo "building java application"
-                      mvn -B package --file pom.xml
+                      mvn -B package --file zenzbg-template/greetings/pom.xml
