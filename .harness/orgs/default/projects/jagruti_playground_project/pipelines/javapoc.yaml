@@ -75,5 +75,5 @@ pipeline:
                     repo: 46990406/demo-harness
                     tags:
                       - latest
-                    dockerfile: zenzbg-template/greetings/Dockerfil
+                    dockerfile: zenzbg-template/greetings/Dockerfile
                     context: zenzbg-template/greetings
