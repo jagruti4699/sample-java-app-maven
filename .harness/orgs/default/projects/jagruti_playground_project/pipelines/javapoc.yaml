@@ -13,7 +13,6 @@ pipeline:
     - stage:
         name: build stage
         identifier: build_stage
-        description: ""
         type: CI
         spec:
           cloneCodebase: true
@@ -30,46 +29,38 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Run_1
-                  identifier: Run_1
+                  name: Build Java App
+                  identifier: Build_Java
                   spec:
                     shell: Sh
-                    command: |-
+                    command: |
                       echo "building java application"
                       mvn -B package --file zenzbg-template/greetings/pom.xml
               - parallel:
                   - step:
                       type: Owasp
-                      name: Owasp_1
-                      identifier: Owasp_1
+                      name: Run OWASP Scan
+                      identifier: Owasp_Scan
                       spec:
                         target:
                           detection: auto
                           type: repository
-                        advanced:
-                          log:
-                            level: info
-                          args: {}
                         mode: orchestration
                         config: default
                   - step:
                       type: OsvScanner
-                      name: OsvScanner_1
-                      identifier: OsvScanner_1
+                      name: Run OSV Scan
+                      identifier: Osv_Scan
                       spec:
                         target:
                           detection: auto
                           type: repository
-                        advanced:
-                          log:
-                            level: info
-                          args: {}
                         mode: orchestration
                         config: default
               - step:
                   type: BuildAndPushDockerRegistry
-                  name: BuildAndPushDockerRegistry_1
-                  identifier: BuildAndPushDockerRegistry_1
+                  name: Build and Push Image
+                  identifier: Build_Push_Image
                   spec:
                     connectorRef: Dockerhubjagruti
                     repo: 46990406/demo-harness
@@ -77,3 +68,15 @@ pipeline:
                       - latest
                     dockerfile: zenzbg-template/greetings/Dockerfile
                     context: zenzbg-template/greetings
+              - step:
+                  type: Run
+                  name: Deploy on Docker Container
+                  identifier: Deploy_Docker
+                  spec:
+                    shell: Sh
+                    command: |
+                      echo "Pulling image and running container..."
+                      docker pull 46990406/demo-harness:latest
+                      docker stop demo-harness || true
+                      docker rm demo-harness || true
+                      docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
