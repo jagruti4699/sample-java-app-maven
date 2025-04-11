@@ -80,5 +80,4 @@ pipeline:
                       docker stop demo-harness || true
                       docker rm demo-harness || true
                       docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
-                      curl http://localhost:8080
         description: ""
