@@ -55,6 +55,11 @@ pipeline:
                     shell: Sh
                     command: |-
                       sshpass -p 'Jagruti4699@' ssh vm@135.235.216.105
+                      whoami
+                      curl ifconfig.io
+                      docker -v
+                      cat /etc/os-release
+                      pwd
                       echo "Pulling image "
                       docker pull 46990406/demo-harness:latest
                       docker stop demo-harness || true
