@@ -36,27 +36,6 @@ pipeline:
                     command: |
                       echo "building java application"
                       mvn -B package --file zenzbg-template/greetings/pom.xml
-              - parallel:
-                  - step:
-                      type: Owasp
-                      name: Run OWASP Scan
-                      identifier: Owasp_Scan
-                      spec:
-                        target:
-                          detection: auto
-                          type: repository
-                        mode: orchestration
-                        config: default
-                  - step:
-                      type: OsvScanner
-                      name: Run OSV Scan
-                      identifier: Osv_Scan
-                      spec:
-                        target:
-                          detection: auto
-                          type: repository
-                        mode: orchestration
-                        config: default
               - step:
                   type: BuildAndPushDockerRegistry
                   name: Build and Push Image
@@ -77,10 +56,10 @@ pipeline:
                     command: |-
                       sshpass -p 'Jagruti4699@' ssh vm@135.235.216.105
                       echo "Pulling image "
-                      sudo docker pull 46990406/demo-harness:latest
-                      sudo docker stop demo-harness || true
-                      sudo docker rm demo-harness || true
-                      sudo docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
+                      docker pull 46990406/demo-harness:latest
+                      docker stop demo-harness || true
+                      docker rm demo-harness || true
+                      docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
         description: ""
     - stage:
         name: Deploy
