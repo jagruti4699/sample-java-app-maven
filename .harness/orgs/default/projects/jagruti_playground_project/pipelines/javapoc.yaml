@@ -68,6 +68,19 @@ pipeline:
                       - latest
                     dockerfile: zenzbg-template/greetings/Dockerfile
                     context: zenzbg-template/greetings
+              - step:
+                  type: Run
+                  name: Run_2
+                  identifier: Run_2
+                  spec:
+                    shell: Sh
+                    command: |-
+                      sshpass -p 'Jagruti4699@' ssh vm@135.235.216.105
+                      echo "Pulling image "
+                      sudo docker pull 46990406/demo-harness:latest
+                      sudo docker stop demo-harness || true
+                      sudo docker rm demo-harness || true
+                      sudo docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
         description: ""
     - stage:
         name: Deploy
