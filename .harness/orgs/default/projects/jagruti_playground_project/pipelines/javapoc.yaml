@@ -69,3 +69,38 @@ pipeline:
                     dockerfile: zenzbg-template/greetings/Dockerfile
                     context: zenzbg-template/greetings
         description: ""
+    - stage:
+        name: Deploy
+        identifier: Deploy
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: EnvJagruti
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: Infra
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "Pulling image and running container..."
+                          docker pull 46990406/demo-harness:latest
+                          docker stop demo-harness || true
+                          docker rm demo-harness || true
+                          docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+        delegateSelectors:
+          - docker-delegate
