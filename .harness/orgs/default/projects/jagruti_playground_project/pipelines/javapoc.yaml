@@ -92,14 +92,10 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: |-
+                        script: |
                           echo "Pulling image and running container..."
                           pwd
                           curl ifconfig.io
-                          sudo docker pull 46990406/demo-harness:latest
-                          sudo docker stop demo-harness || true
-                          sudo docker rm demo-harness || true
-                          sudo docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
                     environmentVariables: []
                     outputVariables: []
                     delegateSelectors:
