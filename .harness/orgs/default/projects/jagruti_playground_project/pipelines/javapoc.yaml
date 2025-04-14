@@ -94,10 +94,10 @@ pipeline:
                       spec:
                         script: |-
                           echo "Pulling image and running container..."
-                          docker pull 46990406/demo-harness:latest
-                          docker stop demo-harness || true
-                          docker rm demo-harness || true
-                          docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
+                          sudo docker pull 46990406/demo-harness:latest
+                          sudo docker stop demo-harness || true
+                          sudo docker rm demo-harness || true
+                          sudo docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
