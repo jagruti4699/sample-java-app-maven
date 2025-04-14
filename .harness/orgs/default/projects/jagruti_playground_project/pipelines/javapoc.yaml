@@ -52,7 +52,7 @@ pipeline:
                   name: Run_2
                   identifier: Run_2
                   spec:
-                    shell: Sh
+                    shell: Bash
                     command: |-
                       sshpass -p 'Jagruti4699@' ssh -o StrictHostKeyChecking=no -tt vm@135.235.216.105
                       whoami
