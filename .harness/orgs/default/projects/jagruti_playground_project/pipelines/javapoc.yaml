@@ -91,14 +91,20 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: |
-                          echo "Pulling image and running container..."
-                          pwd
+                        script: |-
+                          echo "$key" > key2.pem
+                          chmod 400 key2.pem
+                          ssh -i key2.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vm@20.244.32.79
+                          whoami
                           curl ifconfig.io
+                          docker -v
+                          cat /etc/os-release
+                          pwd
+                          echo "Pulling image "
+                          sudo docker pull 46990406/demo-harness:latest
+                          sudo docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
                     environmentVariables: []
                     outputVariables: []
-                    delegateSelectors:
-                      - docker-delegate
                   timeout: 10m
         tags: {}
         delegateSelectors:
