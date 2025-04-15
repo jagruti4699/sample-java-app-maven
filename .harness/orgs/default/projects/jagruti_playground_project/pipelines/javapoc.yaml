@@ -54,7 +54,8 @@ pipeline:
                   spec:
                     shell: Bash
                     command: |-
-                      ssh -i key2.pem vm@20.244.32.79
+                      echo "$key" > key2.pem
+                      ssh -i key2.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vm@20.244.32.79
                       whoami
                       curl ifconfig.io
                       docker -v
@@ -65,6 +66,8 @@ pipeline:
                       docker stop demo-harness || true
                       docker rm demo-harness || true
                       docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
+                    envVariables:
+                      key: <+secrets.getValue("azure-key-file")>
         description: ""
     - stage:
         name: Deploy
