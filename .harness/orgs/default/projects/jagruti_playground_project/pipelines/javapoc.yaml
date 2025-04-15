@@ -74,7 +74,7 @@ pipeline:
                     environmentVariables:
                       - name: SSH_KEY
                         type: Secret
-                        value: key2.pem
+                        value: azure-key-file
                       - name: SSH_USER
                         type: String
                         value: vm
