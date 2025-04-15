@@ -72,18 +72,22 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: |-
+                        script: |
                           #!/bin/bash
+                          # Define Variables
+                          HOST= "20.244.32.79"  
+                          USER= “VM”
                           echo "$key" > key2.pem
                           chmod 400 key2.pem
-                          ssh -i key2.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vm@20.244.32.79
+                          ssh -i key2.pem -o StrictHostKeyChecking=no “$USER@$HOST” <<EOF
+                          echo "Connected to EC2."
                           curl ifconfig.io
                           whoami
                           cat /etc/os-release
                           pwd
                           echo "Pulling image "
-                          run docker pull 46990406/demo-harness:latest
-                          run docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
+                          docker pull 46990406/demo-harness:latest
+                          docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
                           EOF 
                     environmentVariables:
                       - name: key
