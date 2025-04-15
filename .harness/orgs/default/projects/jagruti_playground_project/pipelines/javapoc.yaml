@@ -109,29 +109,4 @@ pipeline:
         tags: {}
         delegateSelectors:
           - docker-delegate
-    - stage:
-        name: custom deploy
-        identifier: custom_deploy
-        description: ""
-        type: Custom
-        spec:
-          execution:
-            steps:
-              - step:
-                  type: ShellScript
-                  name: ShellScript_1
-                  identifier: ShellScript_1
-                  spec:
-                    shell: Bash
-                    executionTarget: {}
-                    source:
-                      type: Inline
-                      spec:
-                        script: |-
-                          whoami
-                          curl ifconfig.io
-                    environmentVariables: []
-                    outputVariables: []
-                  timeout: 10m
-        tags: {}
   allowStageExecutions: true
