@@ -82,9 +82,9 @@ pipeline:
                           cat /etc/os-release
                           pwd
                           echo "Pulling image "
-                          docker pull 46990406/demo-harness:latest
-                          docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
-                          EOF
+                          run docker pull 46990406/demo-harness:latest
+                          run docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
+                          EOF 
                     environmentVariables:
                       - name: key
                         type: String
