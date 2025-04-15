@@ -49,38 +49,22 @@ pipeline:
                     context: zenzbg-template/greetings
               - step:
                   type: Run
-                  name: SSH Deploy to Remote VM
-                  identifier: ssh_deploy
+                  name: Run_2
+                  identifier: Run_2
                   spec:
                     shell: Bash
                     command: |-
-                      echo "Creating SSH key file..."
-                      mkdir -p ~/.ssh
-                      echo "$SSH_KEY" > ~/.ssh/id_rsa
-                      chmod 600 ~/.ssh/id_rsa
-
-                      echo "Connecting to remote server..."
-                      ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
-                        whoami
-                        curl ifconfig.io
-                        docker -v
-                        cat /etc/os-release
-                        echo "Pulling image "
-                        docker pull 46990406/demo-harness:latest
-                        docker stop demo-harness || true
-                        docker rm demo-harness || true
-                        docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
-                      EOF
-                    environmentVariables:
-                      - name: SSH_KEY
-                        type: Secret
-                        value: azure-key-file
-                      - name: SSH_USER
-                        type: String
-                        value: vm
-                      - name: SSH_HOST
-                        type: String
-                        value: 20.244.32.79
+                      ssh -i mykey.pem vm@20.244.32.79
+                      whoami
+                      curl ifconfig.io
+                      docker -v
+                      cat /etc/os-release
+                      pwd
+                      echo "Pulling image "
+                      docker pull 46990406/demo-harness:latest
+                      docker stop demo-harness || true
+                      docker rm demo-harness || true
+                      docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
         description: ""
     - stage:
         name: Deploy
