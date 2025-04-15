@@ -54,7 +54,7 @@ pipeline:
                   spec:
                     shell: Bash
                     command: |-
-                      sshpass -p 'Jagruti4699@' ssh -o StrictHostKeyChecking=no -tt vm@135.235.216.105
+                      ssh -i mykey.pem vm@20.244.32.79
                       whoami
                       curl ifconfig.io
                       docker -v
