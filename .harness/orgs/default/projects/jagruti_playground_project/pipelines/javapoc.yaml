@@ -79,7 +79,6 @@ pipeline:
                           ssh -i key2.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vm@20.244.32.79
                           curl ifconfig.io
                           whoami
-                          docker -v
                           cat /etc/os-release
                           pwd
                           echo "Pulling image "
