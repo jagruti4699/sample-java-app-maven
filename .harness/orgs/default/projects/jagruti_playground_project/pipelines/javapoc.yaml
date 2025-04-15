@@ -115,12 +115,26 @@ pipeline:
                           - AllErrors
                         action:
                           type: Abort
-            rollbackSteps: []
+            rollbackSteps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "FAILED"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
         tags: {}
         failureStrategies:
           - onFailure:
               errors:
                 - AllErrors
               action:
-                type: MarkAsFailure
+                type: StageRollback
   allowStageExecutions: true
