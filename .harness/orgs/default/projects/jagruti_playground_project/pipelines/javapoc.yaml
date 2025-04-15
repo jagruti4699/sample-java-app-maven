@@ -86,6 +86,8 @@ pipeline:
                           pwd
                           echo "Pulling image "
                           sudo docker pull 46990406/demo-harness:latest
+                          sudo docker stop demo-harness 
+                          sudo docker rm demo-harness
                           sudo docker run -d --name demo-harness -p 8080:8080 46990406/demo-harness:latest
                           EOF 
                     environmentVariables:
