@@ -1,0 +1,41 @@
+pipeline:
+  name: test-1
+  identifier: test1
+  projectIdentifier: jagruti_playground_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: GithubJagruti
+        build: <+input>
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: Dockerhubjagruti
+                    repo: 46990406/demo-harness-1
+                    tags:
+                      - latest
+                    dockerfile: zenzbg-template/greetings/Dockerfile
+                    context: zenzbg-template/greetings
