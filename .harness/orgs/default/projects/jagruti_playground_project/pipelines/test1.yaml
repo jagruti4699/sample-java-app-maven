@@ -39,3 +39,17 @@ pipeline:
                       - latest
                     dockerfile: zenzbg-template/greetings/Dockerfile
                     context: zenzbg-template/greetings
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: |-
+                      ssh -o StrictHostKeyChecking=no -i {{secrets.ec2-ssh-private-key}} neosoft@10.0.61.220 << 'EOF'
+                        # Pull the Docker image
+                        docker pull 46990406/demo-harness-1:latest
+
+                        # Run the Docker container
+                        docker run -d --name demo-harness-app -p 8080:8080 46990406/demo-harness-1:latest
+                      EOF
