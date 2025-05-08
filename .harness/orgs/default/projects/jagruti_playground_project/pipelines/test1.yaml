@@ -52,6 +52,53 @@ pipeline:
                       - latest
                     dockerfile: zenzbg-template/greetings/Dockerfile
                     context: zenzbg-template/greetings
+              - parallel:
+                  - step:
+                      type: Background
+                      name: dind
+                      identifier: dind
+                      spec:
+                        connectorRef: account.harnessImage
+                        image: docker:dind
+                        shell: Sh
+                  - step:
+                      type: AquaTrivy
+                      name: AquaTrivy_1
+                      identifier: AquaTrivy_1
+                      spec:
+                        target:
+                          detection: auto
+                          type: container
+                        advanced:
+                          log:
+                            level: info
+                          args: {}
+                        privileged: true
+                        mode: orchestration
+                        config: default
+                        image:
+                          type: local_image
+                          name: 46990406/demo-harness-1
+                          tag: latest
+                  - step:
+                      type: Grype
+                      name: Grype_1
+                      identifier: Grype_1
+                      spec:
+                        target:
+                          detection: auto
+                          type: container
+                        advanced:
+                          log:
+                            level: info
+                          args: {}
+                        privileged: true
+                        mode: orchestration
+                        config: default
+                        image:
+                          type: local_image
+                          name: 46990406/demo-harness-1
+                          tag: latest
               - step:
                   type: Run
                   name: Run_1
@@ -66,3 +113,5 @@ pipeline:
                         # Run the Docker container
                         docker run -d --name demo-harness-app -p 8080:8080 46990406/demo-harness-1:latest
                       EOF
+          sharedPaths:
+            - /var/run
