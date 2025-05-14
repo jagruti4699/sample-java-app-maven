@@ -34,9 +34,11 @@ pipeline:
                   name: Run_1
                   identifier: Run_1
                   spec:
+                    connectorRef: Dockerhubjagruti
+                    image: 46990406/harness-app
                     shell: Sh
                     command: |-
-                      echo "building java application"
+                      echo "building java application" 
                       mvn -B package--file zenzbg-template/greetings/pom.xml
               - step:
                   type: BuildAndPushDockerRegistry
