@@ -40,17 +40,6 @@ pipeline:
                     command: |-
                       echo "building java application" 
                       mvn -B package--file zenzbg-template/greetings/pom.xml
-              - step:
-                  type: BuildAndPushDockerRegistry
-                  name: BuildAndPushDockerRegistry_1
-                  identifier: BuildAndPushDockerRegistry_1
-                  spec:
-                    connectorRef: Dockerhubjagruti
-                    repo: 46990406/harness-app
-                    tags:
-                      - latest
-                    dockerfile: zenzbg-template/greetings/Dockerfile
-                    context: zenzbg-template/greetings
     - stage:
         name: deploy
         identifier: deploy
