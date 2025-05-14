@@ -80,7 +80,10 @@ pipeline:
                           sudo docker rm harness-app
                           sudo docker run -d --name harness-app -p 8088:8088 46990406/harness-app:latest
                           EOF 
-                    environmentVariables: []
+                    environmentVariables:
+                      - name: key
+                        type: String
+                        value: <+secrets.getValue("azure-key-file")>
                   timeout: 10m
             rollbackSteps: []
         tags: {}
