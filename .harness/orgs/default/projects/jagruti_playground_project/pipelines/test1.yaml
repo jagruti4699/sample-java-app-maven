@@ -37,8 +37,8 @@ pipeline:
                     image: 46990406/java-app
                     shell: Sh
                     command: |-
-                      echo "building java application" 
-                      mvn -B package--file zenzbg-template/greetings/pom.xml
+                      echo "building java application"
+                      mvn -B package --file zenzbg-template/greetings/pom.xml
               - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildAndPushDockerRegistry_1
