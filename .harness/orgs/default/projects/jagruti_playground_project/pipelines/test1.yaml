@@ -34,7 +34,7 @@ pipeline:
                   identifier: Run_1
                   spec:
                     connectorRef: Dockerhubjagruti
-                    image: 46990406/java-app
+                    image: 46990406/demo-harness
                     shell: Sh
                     command: |-
                       echo "building java application"
