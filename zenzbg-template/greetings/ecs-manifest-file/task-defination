@@ -1,0 +1,29 @@
+{
+  "family": "harness-demo-task",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "demo-container",
+      "image": "rushiops/demo-harness:latest",
+      "cpu": 512,
+      "memory": 1024,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::281482332073:role/ecsTaskExecutionRole-1",
+  "taskRoleArn": "arn:aws:iam::281482332073:role/ecsTaskExecutionRole-1",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  }
+}
