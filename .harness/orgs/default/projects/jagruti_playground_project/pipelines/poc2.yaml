@@ -47,7 +47,7 @@ pipeline:
         spec:
           deploymentType: ECS
           service:
-            serviceRef: ecsservice
+            serviceRef: ECSSERVICE
             serviceInputs:
               serviceDefinition:
                 type: ECS
@@ -60,35 +60,20 @@ pipeline:
             environmentRef: awsenv
             deployToAll: false
             infrastructureDefinitions:
-              - identifier: ecsinfra
+              - identifier: ECSINFRA
           execution:
             steps:
-              - stepGroup:
-                  name: Basic Deployment
-                  identifier: basicDepoyment
-                  steps:
-                    - step:
-                        name: ECS Service Setup
-                        identifier: EcsServiceSetup
-                        type: EcsServiceSetup
-                        timeout: 10m
-                        spec:
-                          resizeStrategy: ResizeNewFirst
-                    - step:
-                        name: ECS Upgrade Container
-                        identifier: EcsUpgradeContainer
-                        type: EcsUpgradeContainer
-                        timeout: 10m
-                        spec:
-                          newServiceInstanceCount: 100
-                          newServiceInstanceUnit: Percentage
-                          downsizeOldServiceInstanceUnit: Count
-                          downsizeOldServiceInstanceCount: 1
+              - step:
+                  name: ECS Rolling Deploy
+                  identifier: ecsRollingDeploy
+                  type: EcsRollingDeploy
+                  timeout: 10m
+                  spec: {}
             rollbackSteps:
               - step:
-                  name: ECS Basic Rollback
-                  identifier: EcsBasicRollback
-                  type: EcsBasicRollback
+                  name: ECS Rolling Rollback
+                  identifier: ecsRollingRollback
+                  type: EcsRollingRollback
                   timeout: 10m
                   spec: {}
         tags: {}
