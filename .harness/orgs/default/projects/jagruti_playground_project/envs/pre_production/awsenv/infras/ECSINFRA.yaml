@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: ECS-INFRA
+  identifier: ECSINFRA
+  orgIdentifier: default
+  projectIdentifier: jagruti_playground_project
+  environmentRef: awsenv
+  deploymentType: ECS
+  type: ECS
+  spec:
+    connectorRef: awsconnect
+    region: us-east-1
+    cluster: fargate-cluster
+  allowSimultaneousDeployments: false
