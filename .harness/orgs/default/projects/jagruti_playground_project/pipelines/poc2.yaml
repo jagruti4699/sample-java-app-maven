@@ -39,3 +39,62 @@ pipeline:
                       - latest
                     dockerfile: zenzbg-template/greetings/Dockerfile
                     context: zenzbg-template/greetings
+    - stage:
+        name: deploy
+        identifier: deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: ECS
+          service:
+            serviceRef: ecsservice
+            serviceInputs:
+              serviceDefinition:
+                type: ECS
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: awsenv
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: ecsinfra
+          execution:
+            steps:
+              - stepGroup:
+                  name: Basic Deployment
+                  identifier: basicDepoyment
+                  steps:
+                    - step:
+                        name: ECS Service Setup
+                        identifier: EcsServiceSetup
+                        type: EcsServiceSetup
+                        timeout: 10m
+                        spec:
+                          resizeStrategy: ResizeNewFirst
+                    - step:
+                        name: ECS Upgrade Container
+                        identifier: EcsUpgradeContainer
+                        type: EcsUpgradeContainer
+                        timeout: 10m
+                        spec:
+                          newServiceInstanceCount: 100
+                          newServiceInstanceUnit: Percentage
+                          downsizeOldServiceInstanceUnit: Count
+                          downsizeOldServiceInstanceCount: 1
+            rollbackSteps:
+              - step:
+                  name: ECS Basic Rollback
+                  identifier: EcsBasicRollback
+                  type: EcsBasicRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
